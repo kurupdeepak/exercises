@@ -17,7 +17,7 @@ Build and Test
 • Run mvn -Dtest=com.uxpsystems.assignment.UserControllerIT test or <br>
 • mvn -Dtest=com.uxpsystems.assignment.UserServiceIT test <br>
 
-Run as a standalone web application<br> 
+Run as a standalone web application <br>
 • • Run mvn clean install<br>
 • • Locate *.war inside target<br>
 • • Run from the command prompt following <br>
