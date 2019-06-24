@@ -51,11 +51,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@PreAuthorize("authenticated")
 	public User updateUser(User user) {
-		getUser(user.getUserId());
+		User currentCopyOfUser  = getUser(user.getUserId());
+		
+		if(!currentCopyOfUser.getPassword().equals(user.getPassword())) {
+			user.setPassword(passwordEncoder.encode(currentCopyOfUser.getPassword()));
+		}
 		return saveUser(copyOf(user));
 	}
-	
-	
 	
 	protected User copyOf(User user) {
 		User copiedUser = new User();
@@ -66,6 +68,7 @@ public class UserServiceImpl implements UserService {
 		copiedUser.setActive(user.isActive());
 		return copiedUser;
 	}
+	
 	/**
 	 * Delete method to delete a user, its not a physical delete but deactivate the user
 	 */
@@ -98,8 +101,8 @@ public class UserServiceImpl implements UserService {
 		if (isUserExist(user)) {
 			throw new UserAlreadyExistsException("Cannot create !! User already exists ");
 		}
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		UserEntity uE = mapper.toEntity(user);
-		uE.setPassword(passwordEncoder.encode(uE.getPassword()));
 		uE = userRepository.save(uE);
 		return mapper.fromEntity(uE);
 	}
