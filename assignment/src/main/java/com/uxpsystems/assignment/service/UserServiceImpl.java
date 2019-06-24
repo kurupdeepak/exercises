@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 		User currentCopyOfUser  = getUser(user.getUserId());
 		
 		if(!currentCopyOfUser.getPassword().equals(user.getPassword())) {
-			user.setPassword(passwordEncoder.encode(currentCopyOfUser.getPassword()));
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
 		}
 		return saveUser(copyOf(user));
 	}
